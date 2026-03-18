@@ -347,23 +347,81 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
 /* RESPONSIVE */
 @media (max-width: 768px) {
   section { padding: 64px 0; }
+  .container { padding: 0 18px; }
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
-  .hero-titulo { font-size: 3rem; }
+  .hero-titulo { font-size: 2.8rem; }
+  .hero-subtitulo { font-size: 1.05rem; }
+  .hero-desc { font-size: 0.92rem; }
   .hero-bg::after { display: none; }
-  .sobre-grid, .patrocinio-intro, .contacto-grid { grid-template-columns: 1fr; gap: 40px; }
+  #inicio { min-height: 80vh; padding: 100px 0 60px; }
+  .hero-plataformas { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 32px; padding-top: 24px; }
+  .sobre-grid, .patrocinio-intro, .contacto-grid { grid-template-columns: 1fr; gap: 32px; }
   .planes-grid { grid-template-columns: 1fr; }
   .ep-embeds { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; text-align: center; }
   .sobre-foto-wrap::before { display: none; }
+  .seccion-titulo { font-size: 2rem; }
+  .seccion-desc { font-size: 0.88rem; margin-bottom: 32px; }
+  .episodios-controles { flex-direction: column; align-items: stretch; gap: 12px; }
+  .buscador-wrap { max-width: 100%; min-width: unset; }
+  .tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; padding-bottom: 4px; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; }
+  .ep-num { font-size: 1.2rem; min-width: 40px; }
+  .ep-titulo-card { font-size: 0.95rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-box { padding: 16px 12px; }
+  .stat-num { font-size: 1.5rem; }
+  .stat-label { font-size: 0.63rem; }
+  .plan-card { padding: 24px 18px; }
+  .plan-nombre { font-size: 1.3rem; }
+  .plan-precio { font-size: 1.7rem; }
+  .patrocinio-cta { padding: 28px 20px; }
+  .transcript { font-size: 0.92rem; line-height: 1.8; }
+  .transcript h3 { font-size: 1.02rem; margin: 24px 0 12px; }
+  .ep-imagen { height: 180px; }
+  .contacto-grid { gap: 32px; }
 }
 @media (max-width: 480px) {
-  .hero-titulo { font-size: 2.4rem; }
-  .hero-botones { flex-direction: column; align-items: flex-start; }
-  .ep-header { gap: 12px; padding: 18px 16px; }
-  .ep-body-inner { padding: 22px 16px 32px; }
+  .container { padding: 0 14px; }
+  section { padding: 48px 0; }
+  #inicio { min-height: 75vh; padding: 90px 0 48px; }
+  .hero-titulo { font-size: 2.1rem; }
+  .hero-subtitulo { font-size: 0.95rem; margin-bottom: 20px; }
+  .hero-desc { font-size: 0.88rem; margin-bottom: 28px; }
+  .hero-botones { flex-direction: column; align-items: stretch; gap: 10px; }
+  .btn-primary, .btn-outline { justify-content: center; text-align: center; padding: 14px 20px; font-size: 0.8rem; width: 100%; box-sizing: border-box; }
+  .hero-plataformas { gap: 8px; }
+  .plataforma-link { font-size: 0.7rem; padding: 4px 10px; }
+  .ep-header { gap: 10px; padding: 16px 14px; }
+  .ep-body-inner { padding: 18px 14px 28px; }
+  .ep-num { font-size: 1rem; min-width: 32px; }
+  .ep-titulo-card { font-size: 0.88rem; }
+  .ep-info { gap: 8px; }
+  .ep-fecha { font-size: 0.68rem; }
+  .ep-imagen { height: 150px; margin-bottom: 20px; }
+  .ep-embeds { gap: 12px; margin-bottom: 24px; }
+  .transcript { font-size: 0.88rem; line-height: 1.75; }
+  .transcript p { margin-bottom: 14px; }
+  .transcript h3 { font-size: 0.95rem; }
+  .seccion-titulo { font-size: 1.7rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-box { padding: 14px 10px; }
+  .stat-num { font-size: 1.3rem; }
+  .stat-label { font-size: 0.58rem; }
+  .planes-grid { gap: 14px; }
+  .plan-card { padding: 20px 16px; }
+  .sobre-foto { aspect-ratio: 16/9; }
+  .sobre-texto p { font-size: 0.9rem; }
+  .conductor-nombre { font-size: 0.95rem; }
+  .contacto-info p { font-size: 0.88rem; }
+  .form-group input, .form-group select, .form-group textarea { font-size: 0.88rem; padding: 11px 14px; }
+  .footer-brand-desc { font-size: 0.76rem; }
+  .footer-col ul li a { font-size: 0.78rem; }
+  .footer-bottom p { font-size: 0.68rem; }
+  .nav-inner { padding: 0 14px; }
 }
 </style>
 </head>
