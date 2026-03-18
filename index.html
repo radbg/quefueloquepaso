@@ -301,6 +301,28 @@ nav {
   border: 1px solid var(--borde); border-radius: var(--radio);
 }
 .patrocinio-cta p { color: var(--gris); font-size: 0.9rem; margin-top: 10px; }
+.marcas-confian { margin-top: 64px; text-align: center; }
+.marcas-confian-titulo {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--dorado-claro); margin-bottom: 32px;
+}
+.marcas-logos {
+  display: flex; justify-content: center; align-items: center;
+  gap: 48px; flex-wrap: wrap;
+}
+.marca-logo {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  opacity: 0.8; transition: opacity 0.3s;
+}
+.marca-logo:hover { opacity: 1; }
+.marca-logo img {
+  height: 50px; width: auto; object-fit: contain;
+  filter: brightness(0) invert(1); transition: filter 0.3s;
+}
+.marca-logo span {
+  font-size: 0.72rem; letter-spacing: 0.08em; color: var(--gris);
+  text-transform: uppercase;
+}
 
 /* CONTACTO */
 #contacto { background: var(--negro-suave); border-top: 1px solid var(--borde); }
@@ -379,6 +401,9 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
   .plan-nombre { font-size: 1.3rem; }
   .plan-precio { font-size: 1.7rem; }
   .patrocinio-cta { padding: 28px 20px; }
+  .marcas-confian { margin-top: 40px; }
+  .marcas-logos { gap: 32px; }
+  .marca-logo img { height: 40px; }
   .transcript { font-size: 0.92rem; line-height: 1.8; }
   .transcript h3 { font-size: 1.02rem; margin: 24px 0 12px; }
   .ep-imagen { height: 180px; }
@@ -604,6 +629,22 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
         </div>
       </div>
     </div>
+
+    <!-- Marcas que confían en nosotros -->
+    <div class="marcas-confian">
+      <p class="marcas-confian-titulo">Marcas que confían en nosotros</p>
+      <div class="marcas-logos">
+        <a href="https://phoinike.com" target="_blank" class="marca-logo">
+          <img src="img/logo-phoinike.png" alt="Phoinike">
+          <span>Phoinike</span>
+        </a>
+        <a href="https://fundacionempresaspolar.org" target="_blank" class="marca-logo">
+          <img src="img/logo-polar.png" alt="Fundación Empresas Polar">
+          <span>Fundación Empresas Polar</span>
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 
