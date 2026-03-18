@@ -243,6 +243,8 @@ nav {
   border-radius: var(--radio); text-align: center; color: var(--gris); font-size: 0.86rem; font-style: italic;
 }
 #sin-resultados { display: none; text-align: center; padding: 64px 24px; color: var(--gris); }
+#btn-mostrar-mas { background: var(--amarillo); color: #1a1409; border: none; border-radius: 6px; padding: 13px 32px; font-size: 0.95rem; font-weight: 700; cursor: pointer; letter-spacing: 0.02em; transition: opacity .2s, transform .2s; }
+#btn-mostrar-mas:hover { opacity: 0.85; transform: translateY(-1px); }
 #sin-resultados svg { margin: 0 auto 16px; opacity: 0.25; }
 
 /* SOBRE */
@@ -546,6 +548,9 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
       </div>
     </div>
     <div id="lista-episodios"></div>
+    <div id="mostrar-mas-wrap" style="display:none; text-align:center; margin-top:24px;">
+      <button id="btn-mostrar-mas" onclick="mostrarMas()">Mostrar más episodios ▾</button>
+    </div>
     <div id="sin-resultados">
       <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <p>No se encontraron episodios con esa búsqueda.</p>
@@ -2458,16 +2463,11 @@ function buildEpHTML(ep) {
   `;
 }
 
-function renderEpisodios(lista) {
-  const container = document.getElementById('lista-episodios');
-  const sinRes = document.getElementById('sin-resultados');
-  if (lista.length === 0) {
-    container.innerHTML = '';
-    sinRes.style.display = 'block';
-    return;
-  }
-  sinRes.style.display = 'none';
-  container.innerHTML = lista.map(ep => `
+let _listaCompleta = [];
+const VISIBLE_INICIAL = 3;
+
+function buildCardHTML(ep) {
+  return `
     <div class="ep-card" data-id="${ep.id}" data-temp="${ep.temporada}">
       <div class="ep-header" role="button" tabindex="0" aria-expanded="false">
         <span class="ep-num">${String(ep.id).padStart(2,'0')}</span>
@@ -2483,8 +2483,10 @@ function renderEpisodios(lista) {
         <div class="ep-body-inner">${buildEpHTML(ep)}</div>
       </div>
     </div>
-  `).join('');
+  `;
+}
 
+function attachToggleListeners(container) {
   container.querySelectorAll('.ep-header').forEach(header => {
     const toggle = () => {
       const card = header.closest('.ep-card');
@@ -2503,6 +2505,39 @@ function renderEpisodios(lista) {
     header.addEventListener('click', toggle);
     header.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   });
+}
+
+function renderEpisodios(lista) {
+  const container = document.getElementById('lista-episodios');
+  const sinRes = document.getElementById('sin-resultados');
+  const btnWrap = document.getElementById('mostrar-mas-wrap');
+  _listaCompleta = lista;
+  if (lista.length === 0) {
+    container.innerHTML = '';
+    sinRes.style.display = 'block';
+    btnWrap.style.display = 'none';
+    return;
+  }
+  sinRes.style.display = 'none';
+  const visibles = lista.slice(0, VISIBLE_INICIAL);
+  container.innerHTML = visibles.map(buildCardHTML).join('');
+  attachToggleListeners(container);
+  btnWrap.style.display = lista.length > VISIBLE_INICIAL ? 'block' : 'none';
+}
+
+function mostrarMas() {
+  const container = document.getElementById('lista-episodios');
+  const btnWrap = document.getElementById('mostrar-mas-wrap');
+  const yaVisibles = container.querySelectorAll('.ep-card').length;
+  const nuevos = _listaCompleta.slice(yaVisibles);
+  nuevos.forEach(ep => {
+    const div = document.createElement('div');
+    div.innerHTML = buildCardHTML(ep);
+    const card = div.firstElementChild;
+    container.appendChild(card);
+    attachToggleListeners(card);
+  });
+  btnWrap.style.display = 'none';
 }
 
 function filtrar() {
