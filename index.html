@@ -173,6 +173,8 @@ nav {
 #buscador:focus { border-color: var(--amarillo); }
 #buscador::placeholder { color: var(--gris); }
 .tabs-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
+.orden-wrap { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.orden-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); }
 .tab-btn {
   background: none; border: 1px solid var(--borde); color: var(--gris);
   font-family: var(--font-cuerpo); font-size: 0.78rem; letter-spacing: 0.08em;
@@ -391,6 +393,8 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
   .buscador-wrap { max-width: 100%; min-width: unset; }
   .tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; padding-bottom: 4px; }
   .tab-btn { white-space: nowrap; flex-shrink: 0; }
+  .orden-wrap { width: 100%; }
+  .orden-label { margin-bottom: 2px; }
   .ep-num { font-size: 1.2rem; min-width: 40px; }
   .ep-titulo-card { font-size: 0.95rem; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -535,7 +539,11 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" id="buscador" placeholder="Buscar episodio…" autocomplete="off">
       </div>
-      <div class="tabs-wrap" id="tabs-temporada"></div>
+      <div class="orden-wrap">
+        <span class="orden-label">Ordenar:</span>
+        <button class="tab-btn activo" data-orden="reciente">Más recientes</button>
+        <button class="tab-btn" data-orden="antiguo">Más antiguos</button>
+      </div>
     </div>
     <div id="lista-episodios"></div>
     <div id="sin-resultados">
@@ -1021,27 +1029,10 @@ function formatFecha(str) {
   return `${parseInt(d)} de ${meses[parseInt(m)-1]} de ${y}`;
 }
 
-function getTemporadas() {
-  return Array.from(new Set(episodios.map(e => e.temporada))).sort((a,b) => a-b);
-}
-
-function renderTabs() {
-  const wrap = document.getElementById('tabs-temporada');
-  const all = document.createElement('button');
-  all.className = 'tab-btn activo';
-  all.textContent = 'Todos';
-  all.dataset.temp = 'todos';
-  wrap.appendChild(all);
-  getTemporadas().forEach(t => {
-    const btn = document.createElement('button');
-    btn.className = 'tab-btn';
-    btn.textContent = `Temporada ${t}`;
-    btn.dataset.temp = t;
-    wrap.appendChild(btn);
-  });
-  wrap.addEventListener('click', e => {
+function initOrden() {
+  document.querySelector('.orden-wrap').addEventListener('click', e => {
     if (!e.target.classList.contains('tab-btn')) return;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+    document.querySelectorAll('.orden-wrap .tab-btn').forEach(b => b.classList.remove('activo'));
     e.target.classList.add('activo');
     filtrar();
   });
@@ -1113,7 +1104,6 @@ function renderEpisodios(lista) {
           <p class="ep-titulo-card">${ep.titulo}</p>
           <div class="ep-info">
             <span class="ep-fecha">${formatFecha(ep.fecha)}</span>
-            <span class="ep-temp">Temporada ${ep.temporada}</span>
           </div>
         </div>
         <svg class="ep-toggle" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1145,12 +1135,16 @@ function renderEpisodios(lista) {
 }
 
 function filtrar() {
-  const tab = document.querySelector('.tab-btn.activo');
-  const temp = tab ? tab.dataset.temp : 'todos';
+  const ordenBtn = document.querySelector('.orden-wrap .tab-btn.activo');
+  const orden = ordenBtn ? ordenBtn.dataset.orden : 'reciente';
   const q = document.getElementById('buscador').value.toLowerCase().trim();
-  let res = episodios;
-  if (temp !== 'todos') res = res.filter(e => String(e.temporada) === temp);
+  let res = [...episodios];
   if (q) res = res.filter(e => e.titulo.toLowerCase().includes(q) || e.descripcion.toLowerCase().includes(q));
+  if (orden === 'reciente') {
+    res.sort((a, b) => b.id - a.id);
+  } else {
+    res.sort((a, b) => a.id - b.id);
+  }
   renderEpisodios(res);
 }
 
@@ -1181,7 +1175,7 @@ document.getElementById('form-contacto').addEventListener('submit', function(e) 
 });
 
 // Init
-renderTabs();
+initOrden();
 filtrar();
 </script>
 </body>
