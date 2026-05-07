@@ -98,32 +98,59 @@ nav {
 .hero-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(139,105,20,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 80% at 20% 80%, rgba(245,197,24,0.05) 0%, transparent 60%);
+    radial-gradient(ellipse 60% 80% at 15% 60%, rgba(139,105,20,0.10) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 80% 40%, rgba(245,197,24,0.04) 0%, transparent 55%);
 }
 .hero-bg::before {
   content: ''; position: absolute; inset: 0;
-  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,105,20,0.015) 2px, rgba(139,105,20,0.015) 4px);
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,105,20,0.012) 2px, rgba(139,105,20,0.012) 4px);
 }
-.hero-bg::after {
-  content: ''; position: absolute; right: 0; top: 0; width: 45%; height: 100%;
-  background: linear-gradient(135deg, transparent 0%, rgba(139,105,20,0.06) 50%, transparent 100%);
-  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+.hero-grid {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 440px;
+  gap: 72px; align-items: center; width: 100%;
 }
-.hero-content { position: relative; z-index: 2; max-width: 700px; }
+.hero-content { }
 .hero-eyebrow {
   font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--dorado-claro); margin-bottom: 20px; font-family: var(--font-cuerpo);
 }
 .hero-titulo {
-  font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900; color: var(--amarillo);
+  font-size: clamp(2.8rem, 5.5vw, 5rem); font-weight: 900; color: var(--amarillo);
   line-height: 1.0; margin-bottom: 12px; letter-spacing: -0.02em;
 }
 .hero-subtitulo {
-  font-size: clamp(1.1rem, 2.5vw, 1.35rem); font-style: italic; font-weight: 300;
+  font-size: clamp(1.05rem, 2vw, 1.25rem); font-style: italic; font-weight: 300;
   color: var(--blanco); opacity: 0.65; margin-bottom: 28px; font-family: var(--font-cuerpo);
 }
-.hero-desc { font-size: 0.97rem; color: var(--gris); line-height: 1.85; max-width: 540px; margin-bottom: 40px; }
+.hero-desc { font-size: 0.95rem; color: var(--gris); line-height: 1.85; max-width: 500px; margin-bottom: 40px; }
+
+/* HERO IMAGE */
+.hero-foto-wrap {
+  position: relative; align-self: center;
+}
+.hero-foto-wrap::before {
+  content: ''; position: absolute;
+  top: -14px; right: -14px; bottom: 14px; left: 14px;
+  border: 1px solid var(--dorado); border-radius: 6px; opacity: 0.30; z-index: 0;
+}
+.hero-foto-wrap::after {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  border-radius: 4px;
+  background: linear-gradient(to right, rgba(14,14,14,0.18) 0%, transparent 30%);
+  pointer-events: none;
+}
+.hero-foto {
+  position: relative; z-index: 1;
+  width: 100%; aspect-ratio: 1/1;
+  border-radius: 4px; overflow: hidden;
+  border: 1px solid rgba(139,105,20,0.30);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.35);
+}
+.hero-foto img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  display: block;
+}
 .hero-botones { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
@@ -379,8 +406,10 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
   .hero-titulo { font-size: 2.8rem; }
   .hero-subtitulo { font-size: 1.05rem; }
   .hero-desc { font-size: 0.92rem; }
-  .hero-bg::after { display: none; }
-  #inicio { min-height: 80vh; padding: 100px 0 60px; }
+  #inicio { min-height: auto; padding: 100px 0 60px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-foto-wrap { order: -1; max-width: 380px; margin: 0 auto; width: 100%; }
+  .hero-foto-wrap::before { display: none; }
   .hero-plataformas { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 32px; padding-top: 24px; }
   .sobre-grid, .patrocinio-intro, .contacto-grid { grid-template-columns: 1fr; gap: 32px; }
   .planes-grid { grid-template-columns: 1fr; }
@@ -418,7 +447,8 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
 @media (max-width: 480px) {
   .container { padding: 0 14px; }
   section { padding: 48px 0; }
-  #inicio { min-height: 75vh; padding: 90px 0 48px; }
+  #inicio { min-height: auto; padding: 90px 0 48px; }
+  .hero-foto-wrap { max-width: 300px; }
   .hero-titulo { font-size: 2.1rem; }
   .hero-subtitulo { font-size: 0.95rem; margin-bottom: 20px; }
   .hero-desc { font-size: 0.88rem; margin-bottom: 28px; }
@@ -487,42 +517,48 @@ footer { background: var(--negro); border-top: 1px solid var(--borde); padding: 
 <section id="inicio">
   <div class="hero-bg"></div>
   <div class="container">
-    <div class="hero-content">
-      <p class="hero-eyebrow">Un podcast de historia</p>
-      <h1 class="hero-titulo">¿Qué fue<br>lo que<br>pasó?</h1>
-      <p class="hero-subtitulo">…historias de la Historia</p>
-      <p class="hero-desc">
-        <!-- REEMPLAZAR: descripción del podcast -->
-        Las grandes historias que la Historia oficial no siempre cuenta. Cada episodio, un viaje al pasado para entender el presente. Conversaciones honestas, investigación rigurosa, narración apasionada.
-      </p>
-      <div class="hero-botones">
-        <a href="#episodios" class="btn-primary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          Ver episodios
-        </a>
-        <a href="https://www.youtube.com/@QuefueloquepasoHistoria" target="_blank" class="btn-outline">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
-          YouTube
-        </a>
-        <a href="https://open.spotify.com/show/3M3VTzleVGFmtebM5e388H" target="_blank" class="btn-outline">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-          Spotify
-        </a>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Inés Quintero y Laureano Márquez presentan&hellip;</p>
+        <h1 class="hero-titulo">¿Qué fue<br>lo que<br>pasó?</h1>
+        <p class="hero-subtitulo">…historias de la Historia</p>
+        <p class="hero-desc">
+          Las grandes historias que la Historia oficial no siempre cuenta. Cada episodio, un viaje al pasado para entender el presente. Conversaciones honestas, investigación rigurosa, narración apasionada.
+        </p>
+        <div class="hero-botones">
+          <a href="#episodios" class="btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Ver episodios
+          </a>
+          <a href="https://www.youtube.com/@QuefueloquepasoHistoria" target="_blank" class="btn-outline">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
+            YouTube
+          </a>
+          <a href="https://open.spotify.com/show/3M3VTzleVGFmtebM5e388H" target="_blank" class="btn-outline">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Spotify
+          </a>
+        </div>
+        <div class="hero-plataformas">
+          <span class="plataforma-label">Escúchanos en</span>
+          <a href="https://www.youtube.com/@QuefueloquepasoHistoria" class="plataforma-link" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
+            YouTube
+          </a>
+          <a href="https://open.spotify.com/show/3M3VTzleVGFmtebM5e388H" class="plataforma-link" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Spotify
+          </a>
+          <a href="#" class="plataforma-link" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.371 0 0 5.371 0 12c0 6.628 5.371 12 12 12s12-5.372 12-12c0-6.629-5.371-12-12-12zm0 4.8c3.972 0 7.2 3.228 7.2 7.2s-3.228 7.2-7.2 7.2S4.8 15.972 4.8 12 8.028 4.8 12 4.8zm0 2.4c-2.651 0-4.8 2.149-4.8 4.8 0 2.23 1.526 4.118 3.6 4.668v-1.16c-1.353-.51-2.315-1.82-2.315-3.348 0-1.985 1.53-3.6 3.515-3.6s3.515 1.615 3.515 3.6c0 1.6-1.023 2.949-2.43 3.418v1.158c2.136-.51 3.715-2.434 3.715-4.576 0-2.651-2.149-4.96-4.8-4.96z"/></svg>
+            Apple
+          </a>
+        </div>
       </div>
-      <div class="hero-plataformas">
-        <span class="plataforma-label">Escúchanos en</span>
-        <a href="https://www.youtube.com/@QuefueloquepasoHistoria" class="plataforma-link" target="_blank">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
-          YouTube
-        </a>
-        <a href="https://open.spotify.com/show/3M3VTzleVGFmtebM5e388H" class="plataforma-link" target="_blank">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-          Spotify
-        </a>
-        <a href="#" class="plataforma-link" target="_blank"><!-- REEMPLAZAR: enlace de Apple Podcasts -->
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.371 0 0 5.371 0 12c0 6.628 5.371 12 12 12s12-5.372 12-12c0-6.629-5.371-12-12-12zm0 4.8c3.972 0 7.2 3.228 7.2 7.2s-3.228 7.2-7.2 7.2S4.8 15.972 4.8 12 8.028 4.8 12 4.8zm0 2.4c-2.651 0-4.8 2.149-4.8 4.8 0 2.23 1.526 4.118 3.6 4.668v-1.16c-1.353-.51-2.315-1.82-2.315-3.348 0-1.985 1.53-3.6 3.515-3.6s3.515 1.615 3.515 3.6c0 1.6-1.023 2.949-2.43 3.418v1.158c2.136-.51 3.715-2.434 3.715-4.576 0-2.651-2.149-4.96-4.8-4.96z"/></svg>
-          Apple
-        </a>
+      <div class="hero-foto-wrap">
+        <div class="hero-foto">
+          <img src="Foto perfil youtube.png" alt="Laureano Márquez e Inés Quintero — ¿Qué fue lo que pasó?">
+        </div>
       </div>
     </div>
   </div>
